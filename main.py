@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import random
 
 class Fila(object):
     """Clase base de fila"""
@@ -92,6 +93,93 @@ class cliente(object):
 
 if __name__ == "__main__":
     """ simular una fila en una entidad bancaria"""
-    print("hola")
+    print("Creamos 300 clientes que van a venir al banco durante un dia")
+    N = 300
+    clientes = [cliente(i) for i in range(0, N)]
+    #La relacion de clientes preferenciales de generales en 1 en 4, pero se va a asignar de forma aleatoria.
+    #Pero ademas ese el orden de llegada de clientes al banco.
+    for cliente in clientes:
+        tipocliente = random.randint(0, 3) #Tiramos el dado
+        if tipocliente == 3:
+            cliente.modificarcategoria("Preferencial")
+        else:
+            cliente.modificarcategoria("General")
 
-    pass
+    #El banco cuenta con 2 cajas generales generales y 3 cajas preferenciales.
+    #Las dos cajas generales estan abiertas todo el tiempo. Las cajas preferenciales se abren cuando llega una cantidad de
+    #clientes que obliga a abrir una caja si es que hay disponibles. Si una caja preferencial esta vacia un cierto tiempo, se cierra.
+    cajasGenerales = []
+    cajasGenerales.append(FilaGeneral())
+    cajasGenerales.append(FilaGeneral())
+    cajasGenerales[0] .abrircaja()
+    cajasGenerales[1] .abrircaja()
+
+    cajasGeneralesAbiertas = 2
+
+    cajasPreferenciales = []
+
+    cajasPreferenciales.append(FilaPreferencial())
+    cajasPreferenciales.append(FilaPreferencial())
+    cajasPreferenciales.append(FilaPreferencial())
+    cajasPreferenciales[0].abrircaja()
+
+    cajasPreferencialesAbiertas = 1
+
+    #Cada loop va a simular 3 minutos. Durante esos 3 minutos, puede llegar un cliente con un probabilidad del 75%
+    #Durante esos 3 minutos, un cliente prefencial tiene un 50% de ser atendido
+    #Durante esos 3 minutos, un cliente general tiene un 25% de ser atendido
+    #Si una caja prerencial pasa 9 minutos (3 loops) sin clientes, se cierra siempre quedando al menos una abierta
+    #La fila maxima preferencial por caja es de 10.
+
+    #Vamos a medir, tiempo de espera promedio por cliente preferencial y general
+    #Numero de cliente por caja
+
+    clientesAtendidos = 0
+    contadorClientes = 0
+
+    while clientesAtendidos < N:
+
+        #Vemos si llega un cliente
+        llegoCliente = random.randint(0, 3) #Tiramos el dado
+
+        if llegoCliente > 0:
+            print(contadorClientes)
+            if clientes[contadorClientes].categoria == "Preferencial": #Si el cliente es preferencial
+                #Le asignamos unas de las cajas preferneciales
+                cajaN = random.randint(0, cajasPreferencialesAbiertas - 1) #Tiramos el dado
+                #Lo agregamos ahi
+                cajasPreferenciales[cajaN].insertar(clientes[contadorClientes])
+            else:
+                #Le asignamos unas de las cajas generales
+                cajaN = random.randint(0, cajasGeneralesAbiertas - 1) #Tiramos el dado
+                #Lo agregamos ahi
+                cajasGenerales[cajaN].insertar(clientes[contadorClientes])
+
+            contadorClientes+= 1 # Aumentamos el contador de clientes que ya llegaron
+            clientesAtendidos = contadorClientes
+
+        # Vemos las cajas generales
+        for index,caja in enumerate(cajasGenerales):
+            #Hay clientes?
+            if(caja.enfila != 0):
+                atiendeN = random.randint(0, 3) #Tiramos el dado
+                if (atiendeN > 2): #Si sale que si, atiende a un cliente
+                    caja.atender()
+                    print("Cliente antendido en caja " + str(index))
+
+        # Vemos las cajas preferenciales
+        for index,caja in enumerate(cajasPreferenciales):
+            #Esta abierta la caja?
+            if(caja.apertura = True)
+            #Hay clientes?
+            if(caja.enfila != 0):
+                atiendeN = random.randint(0, 3) #Tiramos el dado
+                if (atiendeN > 2): #Si sale que si, atiende a un cliente
+                    caja.atender()
+                    print("Cliente antendido en caja " + str(index))
+
+
+
+    print(cajasGenerales[0].enfila)
+    print(cajasGenerales[1].enfila)
+    print(cajasPreferenciales[0].enfila)
