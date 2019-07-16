@@ -165,21 +165,30 @@ if __name__ == "__main__":
                 atiendeN = random.randint(0, 3) #Tiramos el dado
                 if (atiendeN > 2): #Si sale que si, atiende a un cliente
                     caja.atender()
-                    print("Cliente antendido en caja " + str(index))
+                    print("Cliente antendido en caja general " + str(index))
 
         # Vemos las cajas preferenciales
         for index,caja in enumerate(cajasPreferenciales):
             #Esta abierta la caja?
-            if(caja.apertura = True)
-            #Hay clientes?
-            if(caja.enfila != 0):
-                atiendeN = random.randint(0, 3) #Tiramos el dado
-                if (atiendeN > 2): #Si sale que si, atiende a un cliente
-                    caja.atender()
-                    print("Cliente antendido en caja " + str(index))
+            if(caja.apertura == True):
+                #Hay clientes?
+                if(caja.enfila != 0):
+                    atiendeN = random.randint(0, 1) #Tiramos el dado
+                    if (atiendeN > 1): #Si sale que si, atiende a un cliente
+                        caja.atender()
+                        print("Cliente antendido en caja prefencial " + str(index))
 
+        # Vemos si es necesario abrir alguna nueva caja preferencial
+        for caja in cajasPreferenciales:
+            #Esta abierta la caja?
+            if(caja.apertura == True):
+                #Vemos si es necesario abrir, para ello vamos probando si queda alguna de las cajas abiertas
+                for index,cajanueva in enumerate(cajasPreferenciales):
+                    caja.abrircajanueva(3, cajanueva)
 
 
     print(cajasGenerales[0].enfila)
     print(cajasGenerales[1].enfila)
     print(cajasPreferenciales[0].enfila)
+    print(cajasPreferenciales[1].enfila)
+    print(cajasPreferenciales[2].enfila)    
