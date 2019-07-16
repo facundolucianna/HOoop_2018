@@ -26,6 +26,8 @@ class FilaPreferencial(Fila):
 
     def abrircajanueva(self,maxenfila,filanueva):
         """Si maxenfila es menor que la cantidad de clientes actualmente en espera, abro nueva caja"""
+        #if (maxenfila < self.enfila):
+        #    filanueva =
         pass
 
 
@@ -43,8 +45,8 @@ class FilaGeneral(Fila):
 
     def atender(self):
         """Atiende al proximo cliente no prederencial"""
-        pass
-
+        self.enfila-=1
+        self.fila.pop(0)
 
 
 class cliente(object):
